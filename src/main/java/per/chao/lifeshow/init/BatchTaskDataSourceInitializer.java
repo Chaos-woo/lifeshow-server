@@ -18,7 +18,6 @@ import javax.sql.DataSource;
  * 初始化管理员操作日志类型
  * 初始化短视频状态类型
  * 初始化用户消息类型
- * 初始化统计数据类型
  *
  * @author W.Chao
  * @date 2020/3/2 15:56

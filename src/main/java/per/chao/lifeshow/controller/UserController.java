@@ -2,10 +2,16 @@ package per.chao.lifeshow.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import per.chao.lifeshow.entity.model.JsonResult;
 import per.chao.lifeshow.entity.pojo.*;
 import per.chao.lifeshow.entity.vo.UserInfoVO;
@@ -37,6 +43,8 @@ public class UserController {
 	private IUserFansService userFansService;
 	@Autowired
 	private ICommentsService commentsService;
+	@Autowired
+	private IStatService statService;
 
 	/**
 	 * 根据用户小程序code获取session_key并设置登录口令
@@ -48,6 +56,7 @@ public class UserController {
 	@ApiImplicitParam(name = "code", value = "小程序login()登录获取的code", required = true)
 	@PostMapping("/code2session")
 	public JsonResult code2Session(String code) {
+		statService.incrAccess(1);
 		Map<String, String> data = userService.wxCode2Session(code);
 		if (data != null) {
 			return JsonResult.ok(data);
@@ -117,6 +126,7 @@ public class UserController {
 	@ApiImplicitParam(name = "auth", value = "登录口令", required = true)
 	@GetMapping("/id")
 	public JsonResult getUserId(String auth) {
+		statService.incrAccess(1);
 		Map<String, String> data = userService.getUserId(auth);
 		if (data != null) {
 			return JsonResult.ok(data);

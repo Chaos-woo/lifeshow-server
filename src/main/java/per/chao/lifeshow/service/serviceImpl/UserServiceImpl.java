@@ -64,12 +64,9 @@ public class UserServiceImpl implements IUserService {
 		WXSessionModel wxSessionModel = getWxSessionModel(code);
 		if (wxSessionModel != null) {
 			String password = MD5Utils.getMd5(System.currentTimeMillis() + code + wxSessionModel.getSessionKey());
-			// 数据库存储
+			// 初始化和数据库存储
 			Integer id = initUserInfoAndAuth(password, wxSessionModel.getOpenid());
 			if (id != -1) {
-				// 存入缓存redis
-
-
 				Map<String, String> data = new HashMap<>();
 				data.put("password", password);
 				data.put("id", String.valueOf(id));

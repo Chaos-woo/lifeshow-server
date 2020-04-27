@@ -29,7 +29,7 @@
 #未实现功能包括：
 
 1. 后台与小程序的websoket连接
-2. 管理员dashboard面板数据为假数据
+2. ~~管理员dashboard面板数据为假数据~~ （已有相关代码完成该功能）
 3. 暂不支持管理员对短视频信息的修改
 4. 管理员操作日志未实现
 
@@ -100,7 +100,7 @@
 | 名称       | 描述           | 官网                                    |
 | ---------- | -------------- | --------------------------------------- |
 | Thymeleaf  | 模板引擎       | https://www.thymeleaf.org               |
-| echarts    | 图标           | https://www.echartsjs.com/zh/index.html |
+| echarts    | 图表           | https://www.echartsjs.com/zh/index.html |
 | jQuery     | 函数库         | http://jquery.com/                      |
 | wavesurfer | 音频可视化插件 | https://wavesurfer-js.org               |
 
@@ -130,7 +130,7 @@
 
    **注：**第 **3.** 步中的一些注意点：修改的配置名字不一定是【ifcfg-ens32】，我的是【ifcfg-ens33】，所以不用一定找到博客中的文件，只要里面的内容对就行，下面是我的配置截图
 
-   // 配置图
+   ![配置](https://raw.githubusercontent.com/chaooWoo/lifeshow-server/master/document/images/1.png)
 
 4. 将上一步中设置的【IPADDR】写到【application-dev.yml】中Redis配置中
 
@@ -138,7 +138,6 @@
 
 6. 最后一点：Redis本身是不允许外部连接的，可以在配置文件中进行设置，将其注释，变得任意ip都可进行连接
 
-   // 配置图
 
 
 
@@ -174,6 +173,17 @@ ffprobe：https://pan.baidu.com/s/1llVK7QK3mn_AZXkNy0jzlw 提取码：g31a
 
 1. 代码风格可能不是很好，有一些混乱，相应注释在后续提交中逐步增加
 2. 如有其他问题而在FAQ中无法找到答案，可以自行解决时，请给这个项目提交issues，让我补充到FAQ中供其他使用者查看。若是有其他无法解决的问题，也可以提交issues。项目稳定性不是特别好，请海涵。
+
+
+
+#**2002/04/27更新**
+
+1. 删除原来的master分支
+2. 删除原有的两张表：tb_sys_stat和tb_stat_type
+3. 管理员dashboard面板数据：已增加相应代码，反应的数据为真实数据库数据，使用echarts完成数据可视化，可以前往中文官网进行学习
+4. **特别注意！！！！：** 如果需要在本地运行该项目时，需要去除SSL的Bean配置，否则本地访问都会将链接端口指向https的443端口，导致无法访问，（无需删除带有ssl配置的【application-pro.yml】），在该包下【package per.chao.lifeshow.config】，有以下两种选择可以操作：
+   * 将类【ConnectorConfig.java】直接删除
+   * 将注解【@Bean】去除，使Spring不能创建相应的Bean
 
 
 
