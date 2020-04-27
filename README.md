@@ -13,7 +13,7 @@
 
 ### 后端界面预览：
 
-待上传...
+<img src="https://raw.githubusercontent.com/chaooWoo/lifeshow-server/master/document/images/2.png" alt="预览图" style="zoom:50%;" />
 
 
 
