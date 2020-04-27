@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>Life Show后台登录</title>
+</head>
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="ui container m-padded-tb-massive" style="max-width: 25em !important;">
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal image header">
+                <div class="header">
+                    <img src="../../static/images/logo_h.png" th:src="@{/images/logo_h.png}" alt="logo">
+                </div>
+            </h2>
+            <form class="ui large form" method="post" action="#" th:action="@{/admin/login}">
+                <div class="ui segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="admin" placeholder="管理员帐户名">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="ui middle aligned centered grid">
+                        <div class="eight wide column">
+                            <div class="ui toggle checkbox">
+                                <input type="checkbox" name="auto" value="off">
+                                <label>自动登录</label>
+                            </div>
+                        </div>
+                        <div class="three wide column">
+                        </div>
+                        <div class="five wide column">
+                            <div id="login-btn" class="ui middle teal submit button">登&nbsp;&nbsp;&nbsp;录</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui error mini message"></div>
+            </form>
+            <div class="ui error mini message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">错误</div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="admin/_fragments::footer"></div>
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.ui.form').form({
+        fields: {
+            admin: {
+                identifier: 'admin',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入用户名'
+                }]
+            },
+            password: {
+                identifier: 'password',
+                rules: [{
+                    type: 'empty',
+                    prompt: '请输入密码'
+                }]
+            }
+        }
+    });
+
+    $('#login-btn').click(function () {
+        var boo = $('.ui .form').form('validate form');
+        if (boo) {
+            login();
+        }
+    });
+
+    function login() {
+        // 加密处理
+        $this = $("[name='password']");
+        var pwd = $this.val();
+        var hash = md5(pwd);
+        $this.val(hash);
+        $('#login-btn').commit();
+    }
+
+    $('.ui.checkbox').click(function () {
+        $this = $("[name='auto']");
+        var status = $this.val();
+        if (status == 'on') {
+            $this.val('off');
+        } else {
+            $this.val('on');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>Life Show后台</title>
+</head>
+<body>
+
+<div id="contentWrap">
+    <div th:replace="admin/_fragments::navbar(3)">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+             style="max-width: 250px !important;" tabindex="0">
+            <a href="#" class="item logo">
+                <img src="../../static/images/logo.png" alt="admin logo">
+            </a>
+            <div class="ui accordion inverted">
+                <a class="title item m-padded">
+                    <i class="compass outline icon titleIcon"></i>
+                    <p>首页</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="video icon titleIcon"></i>
+                    <p>短视频管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="user icon titleIcon"></i>
+                    <p>用户管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="music icon titleIcon"></i>
+                    <p>背景音乐管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="tags icon titleIcon"></i>
+                    <p>热门活动管理</p>
+                </a>
+                <div class="title item m-padded toggle">
+                    <i class="bell icon titleIcon"></i>
+                    举报模块
+                    <i class="dropdown icon" style="float: right !important;"></i>
+                    <div class="ui red horizontal label">99+</div>
+                </div>
+                <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                    <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                        <a class="item" href="#">
+                            <i class="lock open icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            举报列表
+                        </a>
+                        <a class="item" href="#">
+                            <i class="lock icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            封禁列表
+                        </a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <a class="title item m-padded">
+                    <i class="users icon titleIcon"></i>
+                    <p>管理员管理</p>
+                </a>
+            </div>
+        </div>
+
+        <!--navbar-->
+        <div class="navslide ui menu">
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user circle icon"></i>
+                    <span>admin</span> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <p class="item">超级管理员</p>
+                    </div>
+                </div>
+            </div>
+            <a class="item labeled">
+                <i class="power icon"></i>注销
+            </a>
+        </div>
+    </div>
+
+    <div class="m-padded-none m-container-content-sp">
+        <!--搜索-->
+        <div class="ui segment form">
+            <input type="hidden" name="page">
+            <div class="inline fields m-margin-tb-none">
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="user-input" id="search-input" placeholder="用户名">
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui basic button" id="clear-btn">清空</button>
+                </div>
+                <div class="field">
+                    <button class="ui teal basic button" id="search-btn"><i class="search icon"></i>搜索</button>
+                </div>
+            </div>
+        </div>
+
+        <!--用户列表-->
+    <div id="table-container">
+        <table th:fragment="userList" class="ui fixed single line celled teal table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th colspan="3">openid</th>
+                <th>用户头像</th>
+                <th>性别</th>
+                <th colspan="2">用户昵称</th>
+                <th colspan="2">注册时间</th>
+                <th colspan="2">最近登录系统时间</th>
+                <th>状态</th>
+                <th colspan="3">关注/粉丝/作品</th>
+                <th colspan="3">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${page.records}" th:classappend="${user.status}==0?'normalBackground':'exceptBackground'">
+                <td th:attr="data-content=${user.id}" th:text="${user.id}">1</td>
+                <td th:attr="data-content=${user.openid}" colspan="3" th:text="${user.openid}">openid</td>
+                <td>
+                    <img src="../../static/images/leaves-pattern.png" alt="" class="ui avatar image" th:src="${user.avatar}">
+                    <div class="ui flowing popup top left transition hidden">
+                        <img src="../../static/images/leaves-pattern.png" alt="" th:src="${user.avatar}">
+                    </div>
+                </td>
+                <td th:if="${user.gender}>0" th:text="${user.gender}==1?'男':'女'">男</td>
+                <td th:if="${user.gender}==0"th:text="${user.gender}==0?'未知'">男</td>
+                <td colspan="2" th:text="${user.nickname}">w_chao</td>
+                <td colspan="2" th:text="${#dates.format(user.regDate,'yyyy-MM-dd')}">2020-02-11 11:11:11</td>
+                <td colspan="2" th:text="${#dates.format(user.lastLoginDate,'yyyy-MM-dd')}">2020-02-11 11:11:11</td>
+                <td th:text="${user.status}==0?'正常':'封禁'">正常</td>
+                <td colspan="3" th:text="${user.stat}">2/23/2</td>
+                <td colspan="3" class="m-overflow-visited">
+                    <div class="ui dropdown item mini button"
+                         style="padding-left: 10px !important;padding-right: 10px !important;">
+                        更多
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <!--未封禁状态恢复不可用，反之-->
+                            <a href="#" class="item" th:href="@{/admin/user/prohibit/{id}/{status}(id=${user.id},status=1)}" th:classappend="${user.status}==1?'disabled'">封禁</a>
+                            <a href="#" class="item" th:href="@{/admin/user/delete/{id}(id=${user.id})}">删除</a>
+                            <a href="#" class="item" th:classappend="${user.status}==0?'disabled'" th:href="@{/admin/user/prohibit/{id}/{status}(id=${user.id},status=0)}">恢复</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="19">
+                    <div class="ui mini pagination menu" th:if="${page.pages}>1">
+                        <a href="#" class="icon item" onclick="page(this)"
+                           th:attr="data-pages=${page.current}-1"
+                           th:unless="${page.current}==1"><i class="angle double left icon"></i>&nbsp;&nbsp;&nbsp;上一页
+                        </a>
+                        <a href="#" class="icon item" onclick="page(this)"
+                           th:attr="data-pages=${page.current}+1"
+                           th:unless="${page.current==page.pages}">下一页&nbsp;&nbsp;&nbsp;<i
+                                class="angle double right icon"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    </div>
+</div>
+
+<div class="ui small basic delete modal scrolling transition hidden">
+    <div class="ui icon header">
+        <i class="archive icon"></i>
+        确定删除用户?
+    </div>
+    <div class="content">
+    </div>
+    <div class="actions">
+        <div class="ui red basic cancel inverted button">
+            <i class="remove icon"></i>否
+        </div>
+        <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>是
+        </div>
+    </div>
+</div>
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.menu .toggle').click(function () {
+        $('.m-item').toggleClass("m-display-hide");
+    });
+
+    $('.ui .dropdown').dropdown({
+        on: "hover"
+    });
+
+    $('#clear-btn')
+        .on('click', function () {
+            $("[name='user-input']").val('');
+        });
+
+    $('td').popup();
+
+    $('.image')
+        .popup({
+            inline: true
+        });
+
+    $('#search-btn').click(function () {
+        $("[name='page']").val(1);
+        loadData();
+    });
+
+    function page(obj) {
+        $("[name='page']").val($(obj).data("pages"));
+        loadData();
+    }
+
+    function loadData() {
+        $("#table-container").load(/*[[@{/admin/user/search}]]*/"/admin/user/search", {
+            user: $("[name='user-input']").val(),
+            pages: $("[name='page']").val()
+        });
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

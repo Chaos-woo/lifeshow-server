@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>Life Show后台</title>
+</head>
+<body>
+
+<div id="contentWrap">
+    <div th:replace="admin/_fragments::navbar(4)">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+             style="max-width: 250px !important;" tabindex="0">
+            <a href="#" class="item logo">
+                <img src="../../static/images/logo.png" alt="admin logo">
+            </a>
+            <div class="ui accordion inverted">
+                <a class="title item m-padded">
+                    <i class="compass outline icon titleIcon"></i>
+                    <p>首页</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="video icon titleIcon"></i>
+                    <p>短视频管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="user icon titleIcon"></i>
+                    <p>用户管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="music icon titleIcon"></i>
+                    <p>背景音乐管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="tags icon titleIcon"></i>
+                    <p>热门活动管理</p>
+                </a>
+                <div class="title item m-padded toggle">
+                    <i class="bell icon titleIcon"></i>
+                    举报模块
+                    <i class="dropdown icon" style="float: right !important;"></i>
+                    <div class="ui red horizontal label">99+</div>
+                </div>
+                <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                    <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                        <a class="item" href="#">
+                            <i class="lock open icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            举报列表
+                        </a>
+                        <a class="item" href="#">
+                            <i class="lock icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            封禁列表
+                        </a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <a class="title item m-padded">
+                    <i class="users icon titleIcon"></i>
+                    <p>管理员管理</p>
+                </a>
+            </div>
+        </div>
+
+        <!--navbar-->
+        <div class="navslide ui menu">
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user circle icon"></i>
+                    <span>admin</span> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <p class="item">超级管理员</p>
+                    </div>
+                </div>
+            </div>
+            <a class="item labeled">
+                <i class="power icon"></i>注销
+            </a>
+        </div>
+    </div>
+
+    <div class="m-padded-none m-container-content-sp">
+        <div class="ui horizontal segments inline form">
+            <input type="hidden" name="page">
+            <div class="ui segment">
+                <div class="ui fields m-margin-tb-none">
+                    <div class="field">
+                        <span class="m-margin-right"
+                              style="color: #8a8a8a;font-weight: bold;line-height: 35px;">QQ音乐:</span>
+                    </div>
+                    <div class="field">
+                        <div class="ui icon input" style="height: 35px !important;">
+                            <input type="text" name="keyword" placeholder="输入歌曲关键字">
+                            <i class="search icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="ui basic button" id="clear-btn">清空</button>
+                    </div>
+                    <div class="field">
+                        <button class="ui teal button" id="search-btn">搜索</button>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="ui right aligned segment">-->
+<!--                <div class="ui inline form">-->
+<!--                    <span class="m-margin-right" style="color: #8a8a8a;">随机推荐:</span>-->
+<!--                    <div class="ui pink vertical animated button" tabindex="0" th:attr="data-catg=24" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            电子-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ui red vertical animated button" tabindex="0" th:attr="data-catg=146" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            网络歌曲-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ui teal vertical animated button" tabindex="0" th:attr="data-catg=194" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            古风-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ui orange vertical animated button" tabindex="0" th:attr="data-catg=167" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            欧美-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ui violet vertical animated button" tabindex="0" th:attr="data-catg=39" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            ACG-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="ui vertical animated button" tabindex="0" th:attr="data-catg=-1" onclick="catg(this)">-->
+<!--                        <div class="hidden content">-->
+<!--                            <i class="search icon"></i>-->
+<!--                        </div>-->
+<!--                        <div class="visible content">-->
+<!--                            排行榜-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+        <div class="ui teal message download transition hidden">
+            <i class="close icon"></i>
+            <div class="header">
+                下载情况
+            </div>
+        </div>
+
+        <div class="ui teal message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header" th:text="${message}">
+                状态消息
+            </div>
+        </div>
+
+        <!--背景音乐列表-->
+        <div id="table-container">
+            <table th:fragment="bgmList" class="ui fixed single line celled teal table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th colspan="4">背景音乐名</th>
+                    <th colspan="4">演唱者</th>
+                    <th colspan="2">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bgm,stat:${page.records}">
+                    <td th:text="${stat.count}">1</td>
+                    <td colspan="4" th:text="${bgm.songName}" th:attr="data-content=${bgm.songName}">音乐名</td>
+                    <td colspan="4">
+                        <span th:each="s,iter:${bgm.singer}">
+                            <span th:text="${s.name}">演唱者</span><span th:unless="${iter.last}">|</span>
+                        </span>
+                    </td>
+                    <td colspan="2" class="m-overflow-visited">
+                        <a href="javascript:void(0);" class="ui icon mini blue button audi"
+                           th:attr="data-id=${bgm.songMid},data-name=${bgm.songName},data-albumid=${bgm.albumid}" onclick="audi(this)">试听&nbsp;&nbsp;<i
+                                class="play circle outline icon"></i></a>
+                        <a href="javascript:void(0);" class="ui mini icon button" th:attr="data-mid=${bgm.songMid},data-albumid=${bgm.albumid}" onclick="download_bgm(this)">下载&nbsp;&nbsp;<i class="download icon"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="11">
+                        <div class="ui mini pagination menu m-margin-right" th:if="${page.pages}>1">
+                            <a href="#" class="icon item" onclick="page(this)"
+                               th:attr="data-pages=${page.current}-1"
+                               th:unless="${page.current}==1"><i class="angle double left icon"></i>&nbsp;&nbsp;&nbsp;上一页
+                            </a>
+                            <a href="#" class="icon item" onclick="page(this)"
+                               th:attr="data-pages=${page.current}+1"
+                               th:unless="${page.current==page.pages}">下一页&nbsp;&nbsp;&nbsp;<i
+                                    class="angle double right icon"></i>
+                            </a>
+                        </div>
+                        <div class="ui m-inline-block" style="color: #8a8a8a;" th:if="${page.total}>1">
+                            搜索到 <span style="color: #ac0013" th:text="${page.total}">10</span> 条记录，当前第
+                            <span style="color: #ac0013" th:text="${page.current}">1</span> 页，共
+                            <span style="color: #ac0013" th:text="${page.total/page.size}">10</span> 页
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--音乐播放按扭开始-->
+<div th:replace="admin/_fragments::music-con" class="MusicCon m-opacity-mini" style="z-index: 999 !important;">
+    <div class='ImgTxt'>
+        <dl>
+            <dt style="margin-left: 5px">
+                <a href="javascript:void(0)" class="play">
+                    <img class="ui circular image butImg zqq" src="../../static/images/cd.jpg" th:src="@{/images/cd.jpg}"
+                         width='90' height='90'/>
+                </a>
+            </dt>
+            <dd style="margin-top: -20px;height: 40px;padding-left: 8px;">
+                <marquee scrollamount="2" direction="left" class="songname">
+                    快去挑选一首歌开始试听吧~
+                </marquee>
+            </dd>
+            <dd style="font-size: 15px;color: darkgray;padding-left: 8px;">
+                <marquee scrollamount="2" direction="left" class="songsinger"></marquee>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="But">
+        <a href="#" class='play'></a>
+    </div>
+
+    <div class="clickBut"><img src="../../static/images/but.png" th:src="@{/images/but.png}"/></div>
+</div>
+<!--音乐播放按扭结束-->
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script src="//y.gtimg.cn/music/h5/player/player.js?max_age=2592000"></script>
+<script src="../../static/js/player.js" th:src="@{/js/player.js}"></script>
+<script>
+    $('.menu .toggle').click(function () {
+        $('.m-item').toggleClass("m-display-hide");
+    });
+
+    $('.message .close')
+        .on('click', function() {
+            $(this).closest('.message')
+                .transition('fade');
+        });
+
+    $('#clear-btn')
+        .on('click', function () {
+            $("[name='keyword']").val('');
+        });
+
+    $('td').popup();
+
+    $('#search-btn').click(function () {
+        $("[name='page']").val(1);
+        loadData();
+    });
+
+    function page(obj) {
+        $("[name='page']").val($(obj).data("pages"));
+        loadData();
+    }
+
+    function loadData() {
+        $("#table-container").load(/*[[@{/admin/bgm/d/key/search}]]*/"/admin/bgm/d/key/search", {
+            keyword: $("[name='keyword']").val(),
+            pages: $("[name='page']").val()
+        });
+    }
+
+    // function catg(obj) {
+    //     var category = $(obj).data("catg");
+    //     $("#table-container").load(/*[[@{/admin/bgm/d/catg/search}]]*/"/admin/bgm/d/catg/search", {
+    //         category: category
+    //     });
+    // }
+
+    function download_bgm(obj) {
+        var mid = $(obj).data("mid");
+        var name = $(obj).parent().parent().find("td").eq(1).text();
+        var singer = $(obj).parent().parent().find("td").eq(2).children().text();
+        var albumid = $(obj).data("albumid");
+        $.ajax({
+            type:'GET',
+            url: /*[[@{/admin/bgm/d}]]*/"/admin/bgm/d",
+            data:{
+                mid: mid,
+                bgmName: name,
+                singer: singer,
+                albumid:albumid
+            },
+            dataType: 'json',
+            success: function (result) {
+                $('.message.download').removeClass('transition hidden');
+                $('.message.download div').html(result.msg);
+            }
+        });
+    }
+
+</script>
+<script type="text/javascript">
+    // 音乐播放器
+    var mark = 0;
+    var player = null;
+    $(function () {
+        $(".MusicCon").animate({width: "420px"}, 3000);
+        player = new QMplayer({target: "web"});
+    });
+
+    $(".clickBut").click(function () {
+        if (mark == 1) {
+            stretchOut();
+        } else {
+            drawBack();
+        }
+    });
+
+    function audi(obj) {
+        var id = $(obj).data("id");
+        var songname = $(obj).data("name");
+        var albumid = $(obj).data("albumid");
+        var singer = $(obj).parent().parent().find("td").eq(2).children().text();
+        $('.butImg').attr("src", "http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_"+albumid+"_0.jpg");
+        $('.songname').html(songname);
+        $('.songsinger').html("Singer: " + singer);
+        player.loop = false;
+        player.play(id);
+    }
+
+    $("body").on('click', 'a.play', function () {
+        $('a.play').addClass('pause');
+        $('a.play').removeClass('play');
+        player.play();
+    });
+
+    $("body").on('click', 'a.pause', function () {
+        $('a.pause').addClass('play');
+        $('a.pause').removeClass('pause');
+        player.play();
+    });
+
+    function stretchOut() {
+        $(".MusicCon").animate({width: "420px"}, 1000);
+        mark = 0;
+    }
+
+    function drawBack() {
+        $(".MusicCon").animate({width: "126px"}, 1000);
+        mark = 1;
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,441 @@
+body {
+    background: url("../images/leaves-pattern.png");
+}
+
+/*-------padding--------------*/
+.m-padded-none {
+    padding: 0 !important;
+}
+
+.m-padded-mini {
+    padding: 0.2em !important;
+}
+
+.m-padded-tiny {
+    padding: 0.3em !important;
+}
+
+.m-padded {
+    padding: 1em !important;
+}
+
+.m-padded-auto {
+    padding: auto;
+!important;
+}
+
+.m-padded-tb-mini {
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+.m-padded-tb-tiny {
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+}
+
+.m-padded-tb-small {
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+}
+
+.m-padded-tb {
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+
+.m-padded-tb-large {
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+
+.m-padded-tb-big {
+    padding-top: 3em !important;
+    padding-bottom: 3em !important;
+}
+
+.m-padded-tb-huge {
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+
+.m-padded-tb-massive {
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
+
+.m-padded-lr-responsive {
+    padding-left: 4em !important;
+    padding-right: 4em !important;
+}
+
+/*---------margin------------*/
+.m-margin-tb-none {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.m-margin-tb-tiny {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+
+.m-margin-tb-small {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+}
+
+.m-margin-tb {
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+}
+
+.m-margin-tb-large {
+    margin-top: 2em !important;
+    margin-bottom: 2em !important;
+}
+
+.m-margin-bottom-small {
+    margin-bottom: 0.5em !important;
+}
+
+.m-margin-right {
+    margin-right: 1em !important;
+}
+
+/*--------text---------------*/
+.m-text {
+    font-weight: 300 !important;
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
+
+.m-text-thin {
+    font-weight: 300 !important;
+}
+
+.m-text-spaced {
+    letter-spacing: 1px;
+}
+
+.m-text-lined {
+    line-height: 1.8;
+}
+
+/*-------opacity-----------*/
+.m-opacity-mini {
+    opacity: 0.8 !important;
+}
+
+.m-opacity-tiny {
+    opacity: 0.6 !important;
+}
+
+/*--------display------------*/
+.m-inline-block {
+    display: inline-block !important;
+}
+
+.m-display-hide {
+    display: none !important;
+}
+
+.m-overflow-visited {
+    overflow: visible !important;
+}
+
+/*--------position-----------*/
+.m-fixed {
+    z-index: 1 !important;
+    position: fixed !important;
+}
+
+.m-right-bottom {
+    bottom: 3em !important;
+    right: 0 !important;
+}
+
+
+.m-shadow-small {
+    -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/*-------position-----------*/
+.m-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/*--------container---------*/
+.m-container-large {
+    max-width: 80em !important;
+    margin: auto !important;
+}
+
+.m-container {
+    max-width: 72em !important;
+    margin: auto !important;
+}
+
+.m-container-small {
+    max-width: 60em !important;
+    margin: auto !important;
+}
+
+.m-container-content-sp {
+    max-width: 100% !important;
+    margin-left: 270px !important;
+    margin-top: 20px !important;
+    margin-right: 20px !important;
+}
+
+.m-block{
+    background-color: #fff;
+    height: 250px;
+}
+
+.frame{
+    border: 1px solid gray;
+}
+
+/*-------color--------------*/
+.m-black {
+    color: #333 !important;
+}
+
+.normalBackground {
+
+}
+
+.exceptBackground {
+    background-color: rgba(232, 234, 0, 0.1) !important;
+}
+
+/*-------other--------------*/
+.sidebar .item i {
+    font-size: 16px !important;
+}
+
+.titleIcon {
+    float: left !important;
+    margin: 0 10px 0 0 !important;
+}
+
+.ui .accordion .title {
+    cursor: pointer;
+}
+
+.logo {
+    background-color: white !important;
+    height: 43px !important;
+}
+
+.logo img {
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    height: 32px;
+    line-height: 32px;
+    margin-left: 27px !important;
+}
+
+.navslide {
+    margin-top: 0 !important;
+    margin-left: 250px !important;
+    background-color: white;
+    border-radius: 0 !important;
+    border: 0 !important;
+    display: flex;
+    height: 43px !important;
+}
+
+/*------calendar css*/
+.calendar {
+    width: 350px;
+    margin: 0 auto 20px;
+    color: #333;
+}
+
+.calendar table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: center;
+}
+
+.calendar caption {
+    line-height: 30px;
+    text-align: center;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 5px;
+}
+
+.calendar caption span {
+    margin: 0 10px;
+}
+
+.calendar caption a {
+    color: #666;
+    margin: 0 5px;
+    text-decoration: none;
+}
+
+.calendar td, .calendar th {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.calendar td span {
+    display: block;
+    width: 30px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.calendar .widget-back {
+    float: right;
+}
+
+.calendar .widget-today span {
+    font-weight: bold;
+}
+
+.calendar .widget-disabled span {
+    color: #999;
+}
+
+.calendar .widget-highlight span {
+    background: #f7b82e;
+    color: #fff;
+    border-radius: 30px;
+}
+
+.calendar .widget-active span {
+    background: #39c;
+    color: #fff;
+    border-radius: 30px;
+}
+
+
+.MusicCon {
+    width: 22px;
+    height: 115px;
+    position: fixed; /*固定定位*/
+    left: 0px;
+    bottom: 130px;
+    background: #000;
+    overflow: hidden; /*超出部分隐藏*/
+}
+
+.MusicCon .ImgTxt {
+    width: 300px;
+    height: 115px;
+    position: absolute;
+    left: 0px;
+}
+
+.MusicCon .But {
+    width: 160px;
+    height: 75px;
+    position: absolute;
+    padding-top: 32px;
+    left: 320px;
+}
+
+.MusicCon .clickBut {
+    width: 22px;
+    height: 115px;
+    background: blue;
+    position: absolute;
+    right: 0px;
+}
+
+.MusicCon .ImgTxt dl {
+    width: 300px;
+    height: 100px;
+    padding-top: 13px;
+}
+
+.MusicCon .ImgTxt dl dt {
+    width: 90px;
+    height: 90px;
+    float: left;
+}
+
+.MusicCon .ImgTxt dl dd {
+    width: 200px;
+    height: 90px;
+    float: right;
+    color: #fff;
+    font-size: 22px;
+    line-height: 90px;
+}
+
+.MusicCon .But a {
+    width: 45px;
+    height: 45px;
+    display: block;
+    float: left;
+    margin: 0px 10px;
+}
+
+.MusicCon .But a.play {
+    background: url("../images/play.png") no-repeat center;
+}
+
+.MusicCon .But a.play:hover {
+    background: url("../images/play1.png") no-repeat center;
+}
+
+.MusicCon .But a.pause {
+    background: url("../images/pause.png") no-repeat center;
+}
+
+.MusicCon .But a.pause:hover {
+    background: url("../images/pause1.png") no-repeat center;
+}
+
+.zqq {
+    -webkit-animation: zq 15s infinite linear;
+}
+
+@-webkit-keyframes zq {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.footer-left a{
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

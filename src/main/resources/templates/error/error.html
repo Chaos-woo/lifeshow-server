@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>错误</title>
+</head>
+<body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="ui container">
+    <div class="ui negative message m-margin-tb-large">
+        <div class="header">
+            Error
+        </div>
+        <br>
+        <span>发生错误啦! </span>
+        <a href="#" onclick="javascript :history.back(-1);">点击我返回上一页</a>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div>
+<div th:utext="'&lt;!--'" th:remove="tag"></div>
+<div th:utext="'Failed Request URL : ' + ${url}" th:remove="tag">
+</div>
+<div th:utext="'Exception message : ' + ${exception.message}"
+     th:remove="tag"></div>
+<ul th:remove="tag">
+    <li th:each="st : ${exception.stackTrace}" th:remove="tag"><span
+            th:utext="${st}" th:remove="tag"></span></li>
+</ul>
+<div th:utext="'--&gt;'" th:remove="tag"></div>
+</div>
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+</body>
+</html>

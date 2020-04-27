@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css" th:href="@{/css/semantic.min.css}">
+    <link rel="stylesheet" href="../../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="stylesheet" href="../../static/css/cssreset-min.css" th:href="@{/css/cssreset-min.css}">
+    <title>Life Show后台</title>
+</head>
+<body>
+<div th:fragment="navbar(activ)">
+    <!--sidebar-->
+    <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+         style="max-width: 250px !important;" tabindex="0">
+        <a href="#" class="item logo">
+            <img src="../../static/images/logo_mini.png" th:src="@{/images/logo_mini.png}" alt="admin logo">
+        </a>
+        <div class="ui accordion inverted">
+            <a class="title item m-padded" th:classappend="${activ}==1?'active'" th:href="@{/admin/dashboard}">
+                <i class="compass outline icon titleIcon"></i>
+                <p>首页</p>
+            </a>
+            <a class="title item m-padded" th:classappend="${activ}==2?'active'" th:href="@{/admin/video}">
+                <i class="video icon titleIcon"></i>
+                <p>短视频管理</p>
+            </a>
+            <a class="title item m-padded" th:classappend="${activ}==3?'active'" th:href="@{/admin/user}">
+                <i class="user icon titleIcon"></i>
+                <p>用户管理</p>
+            </a>
+            <a class="title item m-padded" th:classappend="${activ}==4?'active'" th:href="@{/admin/bgm}">
+                <i class="music icon titleIcon"></i>
+                <p>背景音乐管理</p>
+            </a>
+            <a class="title item m-padded" th:classappend="${activ}==5?'active'" th:href="@{/admin/activs/0}">
+                <i class="tags icon titleIcon"></i>
+                <p>热门活动管理</p>
+            </a>
+            <div class="title item m-padded toggle" th:classappend="${activ}==6?'active'">
+                <i class="bell icon titleIcon"></i>
+                举报模块
+                <i class="dropdown icon" style="float: right !important;"></i>
+            </div>
+            <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                    <a class="item" href="#" th:href="@{/admin/report}">
+                        <i class="lock open icon"
+                           style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                        举报列表
+                    </a>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <a class="title item m-padded" th:classappend="${activ}==8?'active'"
+               th:if="${session.admin.account}=='admin'" th:href="@{/admin/sys_admin}">
+                <i class="users icon titleIcon"></i>
+                <p>管理员管理</p>
+            </a>
+        </div>
+        <div class="footer-left" style="text-align: center;position: absolute;bottom: 20px">
+            <div><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=53250202000142"
+                    style="text-decoration:none;height:20px;line-height:20px;"><img src="../../static/images/beian.png"
+                                                                                    th:src="@{/images/beian.png}"
+                                                                                    style="display: inline-block;"/>
+                <p style="display: inline;height:20px;line-height:20px;margin: 0 0 0 5px; color:#fff;">滇公网安备
+                    53250202000142号</p></a></div>
+            <div><a href="http://www.beian.miit.gov.cn/">滇ICP备20002628号</a></div>
+        </div>
+    </div>
+
+    <!--navbar-->
+    <div class="navslide ui menu">
+        <div class="right menu">
+            <div class="ui dropdown item">
+                <i class="user circle icon" style="line-height: 18px;"></i>
+                <span th:text="${session.admin.account}">admin</span> <i class="dropdown icon"></i>
+                <div class="menu">
+                    <p class="item" th:text="${session.admin.authName}">超级管理员</p>
+                </div>
+            </div>
+        </div>
+        <a class="item labeled" th:href="@{/admin/logout}">
+            <i class="power icon" style="line-height: 18px;"></i>注销
+        </a>
+    </div>
+</div>
+
+<div th:fragment="footer" class="footer" style="text-align: center;position: absolute;bottom: 10px;left: 45%">
+    <div><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=53250202000142"
+            style="text-decoration:none;height:20px;line-height:20px;"><img src="../../static/images/beian.png"
+                                                                            th:src="@{/images/beian.png}"
+                                                                            style="display: inline-block;"/>
+        <p style="display: inline;height:20px;line-height:20px;margin: 0 0 0 5px;">滇公网安备
+            53250202000142号</p></a></div>
+    <div><a href="http://www.beian.miit.gov.cn/">滇ICP备20002628号</a></div></div>
+
+<!--音乐播放按扭开始-->
+<div th:fragment="music-con" class="MusicCon m-opacity-mini" style="z-index: 999 !important;">
+    <div class='ImgTxt'>
+        <dl>
+            <dt style="margin-left: 5px">
+                <a href="javascript:void(0)" class="play">
+                    <img class="ui circular image butImg zqq" src="../../static/images/cd.jpg"
+                         th:src="@{/images/cd.jpg}"
+                         width='90' height='90'/>
+                </a>
+            </dt>
+            <dd style="margin-top: -20px;height: 40px;padding-left: 8px;">
+                <marquee scrollamount="2" direction="left" class="songname">
+                    快去挑选一首歌开始试听吧~
+                </marquee>
+            </dd>
+            <dd style="font-size: 15px;color: darkgray;padding-left: 8px;">
+                <marquee scrollamount="2" direction="left" class="songsinger"></marquee>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="But">
+        <a href="#" class='play'></a>
+    </div>
+
+    <div class="clickBut"><img src="../../static/images/but.png" th:src="@{/images/but.png}"/></div>
+</div>
+<!--音乐播放按扭结束-->
+
+<!--/*/<th:block th:fragment="script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js" th:src="@{/js/jquery-2.2.4.min.js}"></script>
+<script src="../../static/js/semantic.min.js" th:src="@{/js/semantic.min.js}"></script>
+<script src="../../static/js/md5.min.js" th:src="@{/js/md5.min.js}"></script>
+<!--/*/</th:block>/*/-->
+
+</body>
+</html>

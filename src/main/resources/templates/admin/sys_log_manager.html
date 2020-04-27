@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <link rel="stylesheet" href="../../static/css/cssreset-min.css">
+    <title>Life Show后台</title>
+</head>
+<body>
+
+<div id="contentWrap">
+    <div th:replace="admin/_fragments::navbar(7)">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+             style="max-width: 250px !important;" tabindex="0">
+            <a href="#" class="item logo">
+                <img src="../../static/images/logo.png" alt="admin logo">
+            </a>
+            <div class="ui accordion inverted">
+                <a class="title item m-padded">
+                    <i class="compass outline icon titleIcon"></i>
+                    <p>首页</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="video icon titleIcon"></i>
+                    <p>短视频管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="user icon titleIcon"></i>
+                    <p>用户管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="music icon titleIcon"></i>
+                    <p>背景音乐管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="tags icon titleIcon"></i>
+                    <p>热门活动管理</p>
+                </a>
+                <div class="title item m-padded toggle">
+                    <i class="bell icon titleIcon"></i>
+                    举报模块
+                    <i class="dropdown icon" style="float: right !important;"></i>
+                    <div class="ui red horizontal label">99+</div>
+                </div>
+                <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                    <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                        <a class="item" href="#">
+                            <i class="lock open icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            举报列表
+                        </a>
+                        <a class="item" href="#">
+                            <i class="lock icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            封禁列表
+                        </a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <a class="title item m-padded">
+                    <i class="users icon titleIcon"></i>
+                    <p>管理员管理</p>
+                </a>
+            </div>
+        </div>
+
+        <!--navbar-->
+        <div class="navslide ui menu">
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user circle icon"></i>
+                    <span>admin</span> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <p class="item">超级管理员</p>
+                    </div>
+                </div>
+            </div>
+            <a class="item labeled">
+                <i class="power icon"></i>注销
+            </a>
+        </div>
+    </div>
+
+    <div class="m-padded-none m-container-content-sp">
+        <!--搜索-->
+        <div class="ui segment form">
+            <div class="inline fields m-margin-tb-none">
+                <div class="field">
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="type">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">管理员</div>
+                        <div class="menu">
+                            <div class="item" data-value="1">admin</div>
+                            <div class="item" data-value="1">admin_1</div>
+                        </div>
+                    </div>
+                    <div class="ui disabled input">
+                        <input type="text" id="selected-date">
+                    </div>
+                    <div class="ui basic icon button calendar-button">
+                        <i class="calendar icon"></i>
+                    </div>
+                    <div class="ui fluid calendar-popup popup bottom left transition hidden"
+                         style="display: block !important;top: 480px; left: 1px; bottom: auto; right: auto; width: 300px;">
+                        <div class="calendar calendar1"></div>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui mini basic button" id="clear-btn">清空</button>
+                </div>
+                <div class="field">
+                    <button class="ui teal mini basic button" id="search-btn"><i class="search icon"></i>搜索</button>
+                </div>
+            </div>
+        </div>
+
+        <!--日志列表-->
+        <table class="ui celled sortable teal table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>操作人（管理员）</th>
+                <th>操作时间</th>
+                <th>操作类型</th>
+                <th>操作内容</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-content="1">1</td>
+                <td>admin</td>
+                <td>2020-02-11 11:11:11</td>
+                <td>操作类型</td>
+                <td data-content="">操作内容</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="20">
+                    <div class="ui mini pagination menu">
+                        <a href="#" class="icon item"><i class="angle double left icon"></i>&nbsp;&nbsp;&nbsp;上一页
+                        </a>
+                        <a href="#" class="icon item">下一页&nbsp;&nbsp;&nbsp;<i class="angle double right icon"></i>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script src="../../static/js/tablesort.js" th:src="@{/js/tablesort.js}"></script>
+<script src="../../static/js/calendar.js" th:src="@{/js/calendar.js}"></script>
+<script src="../../static/js/jquery.calendar.js" th:src="@{/js/jquery.calendar.js}"></script>
+<script type="module">
+    import DateHelper from '../../static/js/dateHelper.js';
+
+    $(function () {
+        $('#selected-date').val(DateHelper.getDateByTimeStampEndWithDay(new Date().getTime()));
+    });
+
+    $('.menu .toggle').click(function () {
+        $('.m-item').toggleClass("m-display-hide");
+    });
+
+    $('.ui .dropdown').dropdown({
+        on: "hover"
+    });
+
+    $('#clear-btn')
+        .on('click', function () {
+            $('.ui.dropdown')
+                .dropdown('clear');
+            $('#selected-date').val(DateHelper.getDateByTimeStampEndWithDay(new Date().getTime()));
+        });
+
+    $('#search-btn')
+        .on('click', function () {
+            // 转换成时间戳
+            var final_selected_timestamp = new Date(selected_timestamp).getTime();
+            alert(
+                'final_selected_timestamp:' + final_selected_timestamp + '\n' +
+                'start date:' + DateHelper.getDateByTimeStamp(final_selected_timestamp) + '\n'
+            );
+            // 请求和加载数据操作
+        });
+
+    $('td').popup();
+
+    $('table').tablesort();
+
+    $('.calendar-button').popup({
+        inline: true,
+        hoverable: true,
+        position: 'bottom left',
+        delay: {
+            show: 300,
+            hide: 800
+        },
+        on: 'hover'
+    });
+
+    var selected_timestamp = '';
+    var timestamp_suffix = ' 00:00:00';
+
+    $('.calendar1').calendar({
+        isRange: false,
+        highlightRange: [['today', 'today']],
+        'onSelect': function (range) {
+            var selected_date = range[0]['year'] + '-' + range[0]['month'] + '-' + range[0]['day'];
+            $('#selected-date').val(selected_date);
+            selected_timestamp = selected_date + timestamp_suffix;
+        }
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

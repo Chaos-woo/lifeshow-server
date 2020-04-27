@@ -1,0 +1,51 @@
+spring:
+  thymeleaf:
+    mode: HTML
+    cache: false
+  profiles:
+    active: dev
+
+# 自定义属性
+#  管理员登录缓存
+#  hash admin_auths admin_id-xxx
+admin_auths_key: 'admin_auths:'
+# session key 失效时间设置
+session_key_expire_key: 259200000 #3*24*60*60*1000
+#  用户登录缓存
+#  hash user_auths user_id-xxx
+user_auths_key: 'user_auths:'
+#  用户对视频点赞缓存（位图）
+#  bitmap video_liked_record:video_id
+video_liked_record_key: 'video_liked_record:'
+
+
+#  当前管理员/用户登录状态
+#  bitmap login_status:admin
+login_status_admin_key: 'login_status:admin:'
+#  bitmap login_status:user
+login_status_user_key: 'login_status:user:'
+
+# wechat config
+wx.appid: xxxx
+wx.secret: xxxx
+wx.requestUrl: https://api.weixin.qq.com/sns/jscode2session
+wx.grantType: authorization_code
+
+# 项目启动自动初始化数据表和数据
+classpath:sql-schema: 'classpath:life_show_schema.sql'
+classpath:sql-data: 'classpath:data.sql'
+
+# qq音乐请求接口（旧）
+qq.music.search: 'https://v1.itooi.cn/tencent/search'
+qq.music.pic: 'https://v1.itooi.cn/tencent/pic'
+qq.music.download: 'https://v1.itooi.cn/tencent/url'
+qq.music.hotSongList: 'https://v1.itooi.cn/tencent/songList/hot'
+qq.music.songList: 'https://v1.itooi.cn/tencent/songList'
+qq.music.topList: 'https://v1.itooi.cn/tencent/topList'
+
+# qq音乐请求接口（新）
+rand.song.url: 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_toplist_cp.fcg'
+keyword.song.url: 'https://c.y.qq.com/soso/fcgi-bin/client_search_cp'
+cover.url.prefix: 'http://imgcache.qq.com/music/photo/album_300/17/300_albumpic_'
+current.qq.music.addr: 'https://u.y.qq.com/cgi-bin/musicu.fcg?-=getplaysongvkey09489699031337162&g_tk=5381&loginUin=0&hostUin=0&format=json&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&data=%7B%22req%22%3A%7B%22module%22%3A%22CDN.SrfCdnDispatchServer%22%2C%22method%22%3A%22GetCdnDispatch%22%2C%22param%22%3A%7B%22guid%22%3A%229167391000%22%2C%22calltype%22%3A0%2C%22userip%22%3A%22%22%7D%7D%2C%22req_0%22%3A%7B%22module%22%3A%22vkey.GetVkeyServer%22%2C%22method%22%3A%22CgiGetVkey%22%2C%22param%22%3A%7B%22guid%22%3A%229167391000%22%2C%22songmid%22%3A%5B%22001C1g8J0Tvpg1%22%5D%2C%22songtype%22%3A%5B0%5D%2C%22uin%22%3A%220%22%2C%22loginflag%22%3A1%2C%22platform%22%3A%2220%22%7D%7D%2C%22comm%22%3A%7B%22uin%22%3A0%2C%22format%22%3A%22json%22%2C%22ct%22%3A24%2C%22cv%22%3A0%7D%7D'
+

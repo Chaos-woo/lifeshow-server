@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>Life Show后台</title>
+</head>
+<body>
+
+<div id="contentWrap">
+    <div th:replace="admin/_fragments::navbar(1)">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+             style="max-width: 250px !important;" tabindex="0">
+            <a href="#" class="item logo">
+                <img src="../../static/images/logo.png" alt="admin logo">
+            </a>
+            <div class="ui accordion inverted">
+                <a class="title item m-padded">
+                    <i class="compass outline icon titleIcon"></i>
+                    <p>首页</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="video icon titleIcon"></i>
+                    <p>短视频管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="user icon titleIcon"></i>
+                    <p>用户管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="music icon titleIcon"></i>
+                    <p>背景音乐管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="tags icon titleIcon"></i>
+                    <p>热门活动管理</p>
+                </a>
+                <div class="title item m-padded toggle">
+                    <i class="bell icon titleIcon"></i>
+                    举报模块
+                    <i class="dropdown icon" style="float: right !important;"></i>
+                    <div class="ui red horizontal label">99+</div>
+                </div>
+                <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                    <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                        <a class="item" href="#">
+                            <i class="lock open icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            举报列表
+                        </a>
+                        <a class="item" href="#">
+                            <i class="lock icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            封禁列表
+                        </a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <a class="title item m-padded">
+                    <i class="users icon titleIcon"></i>
+                    <p>管理员管理</p>
+                </a>
+            </div>
+        </div>
+
+        <!--navbar-->
+        <div class="navslide ui menu">
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user circle icon"></i>
+                    <span>admin</span> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <p class="item">超级管理员</p>
+                    </div>
+                </div>
+            </div>
+            <a class="item labeled">
+                <i class="power icon"></i>注销
+            </a>
+        </div>
+    </div>
+
+    <div class="m-padded-none m-container-content-sp">
+        <div id="userSevenDayChanged" class="m-padded-none frame"
+             style="width: 100%;height: 300px; background-color: #fff;padding: 5px"></div>
+
+        <div class="m-padded-none" style="width: 100%;height: 250px;margin-top: 10px;">
+            <div class="ui divided grid" style="margin:0 !important;justify-content: space-between !important;">
+                <div class="ui three wide column m-block frame" id="allUser"></div>
+                <div class="ui three wide column m-block frame" id="allVideo"></div>
+                <div class="ui three wide column m-block frame" id="allBgm"></div>
+                <div class="ui three wide column m-block frame" id="allAccess"></div>
+            </div>
+        </div>
+        <div id="videoSevenDayChanged" class="m-padded-none frame"
+             style="width: 100%;background-color: #fff;height: 300px;margin-top: 10px"></div>
+    </div>
+</div>
+
+<div class="ui dimmer modals page transition visible active" style="display: flex !important;" th:if="${session.admin.pwdLastSet}">
+    <div class="ui small basic set-pwd modal transition visible active" style="display: block !important;">
+        <div class="ui icon header">
+            <i class="lock icon"></i>
+            首次登录，需要修改密码
+        </div>
+        <div class="content" style="text-align: center !important;">
+            <div class="ui small labeled input">
+                <div class="ui label">
+                    新密码
+                </div>
+                <input type="password" placeholder="输入新密码" name="password">
+            </div>
+            <div class="ui error mini message hidden" style="max-width: 300px; margin-left: 190px !important;"><span></span>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui green ok inverted button" id="set-pwd-btn">
+                <i class="checkmark icon"></i>
+                提交
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script src="../../static/js/echarts.min.js" th:src="@{/js/echarts.min.js}"></script>
+<script>
+    $(".menu .toggle").click(function () {
+        $(".m-item").toggleClass("m-display-hide");
+    });
+
+    $(".ui .dropdown").dropdown({
+        on: "hover"
+    });
+
+    var flag = false;
+    $('.basic.set-pwd.modal')
+        .modal({
+            closable: false,
+            onApprove: function () {
+                if (flag) {
+                    return true;
+                }
+                return false;
+            }
+        })
+        .modal('show');
+
+    $('#set-pwd-btn').click(function () {
+        var pwdVal = $("[name='password']").val();
+        var length = $.trim(pwdVal).length;
+        if (pwdVal == null || pwdVal == "" || pwdVal == undefined || length == 0 || length < 6) {
+            $('.error.message').removeClass('hidden');
+            $('.error.message span').html('注意: 密码不能为空且需要大于6位');
+            return;
+        }
+        // 提交密码
+        updatePwd(md5(pwdVal));
+    });
+
+    function updatePwd(pwd) {
+        $.ajax({
+            type: 'POST',
+            url: /*[[@{/admin/pwd}]]*/"/admin/pwd",
+            data: {password: pwd},
+            dataType: 'json',
+            success: function (result) {
+                if (result.success == true) {
+                    flag = true;
+                    window.location.href = /*[[@{/admin/dashboard}]]*/"/admin/dashboard";
+                }
+            }
+        });
+    }
+
+    $('.message .close').on('click', function () {
+        $(this).closest('.message')
+            .transition('fade');
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var userSevenDayChangedChart = echarts.init(document.getElementById('userSevenDayChanged'));
+        var option = {
+            title: {
+                text: '7日注册用户变化图'
+            },
+            legend: {},
+            tooltip: {
+                trigger: 'axis',
+                showContent: true
+            },
+            dataset: {
+                source: []
+            },
+            xAxis: {type: 'category'},
+            yAxis: {gridIndex: 0},
+            barWidth: 70,
+            series: [
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                {
+                    type: 'bar', seriesLayoutBy: 'row', itemStyle:
+                        {
+                            normal: {
+                                color: function (params) {
+                                    var colorList = ['#f67287', '#c05bdd', '#7a65f2', '#f29e3c', '#65d186', '#58afed', '#6dd8da', '#b6a2de'];
+                                    return colorList[params.dataIndex];
+                                }
+                            }
+                        }
+                }
+            ]
+        };
+        userSevenDayChangedChart.setOption(option);
+        userSevenDayChangedChart.showLoading();
+        $.getJSON(/*[[@{/admin/stat/user}]]*/"/admin/stat/user", "", function (data) {
+            userSevenDayChangedChart.hideLoading();
+            var array = data.data;
+            userSevenDayChangedChart.setOption({
+                    dataset: {
+                        source: [
+                            array[0], array[1]
+                        ]
+                    }
+                }
+            )
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var videoSevenDayChangedChart = echarts.init(document.getElementById('videoSevenDayChanged'));
+        var option = {
+            title: {
+                text: '7日短视频增长变化图'
+            },
+            legend: {},
+            tooltip: {
+                trigger: 'axis',
+                showContent: true
+            },
+            dataset: {
+                source: []
+            },
+            barWidth: 70,
+            xAxis: {type: 'category'},
+            yAxis: {gridIndex: 0},
+            series: [
+                {type: 'line', smooth: true, seriesLayoutBy: 'row'},
+                {
+                    type: 'bar', seriesLayoutBy: 'row',
+                    itemStyle:
+                        {
+                            normal: {
+                                color: function (params) {
+                                    var colorList = ['#65d186', '#f67287', '#f29e3c', '#c05bdd', '#7a65f2', '#6dd8da', '#b6a2de', '#58afed'];
+                                    return colorList[params.dataIndex];
+                                }
+                            }
+                        }
+                }]
+        };
+        videoSevenDayChangedChart.setOption(option);
+        videoSevenDayChangedChart.showLoading();
+        $.getJSON(/*[[@{/admin/stat/video}]]*/"/admin/stat/video", "", function (data) {
+            videoSevenDayChangedChart.hideLoading();
+            var array = data.data;
+            videoSevenDayChangedChart.setOption({
+                    dataset: {
+                        source: [
+                            array[0], array[1]
+                        ]
+                    }
+                }
+            )
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var allUserChart = echarts.init(document.getElementById('allUser'));
+        var option = {
+            title: {
+                text: '小程序注册总人数 : null'
+            },
+            tooltip: {},
+            dataset: {
+                source: [
+                    // ['性别', '人数'],
+                    // ['男', 45],
+                    // ['女', 40],
+                    // ['未知', 15]
+                ]
+            },
+            series: [{
+                type: 'pie',
+                radius: 60,
+                center: ['50%', '60%']
+            }]
+        };
+        allUserChart.setOption(option);
+        allUserChart.showLoading();
+        $.getJSON(/*[[@{/admin/stat/users}]]*/"/admin/stat/users", "", function (data) {
+            allUserChart.hideLoading();
+            var array = data.data;
+            allUserChart.setOption({
+                    title: {
+                        text: '小程序注册总人数 : ' + array[1][0]
+                    },
+                    dataset: {
+                        source: [
+                            ['性别', '人数'],
+                            [array[0][1], array[1][1]],
+                            [array[0][2], array[1][2]],
+                            [array[0][3], array[1][3]]
+                        ]
+                    }
+                }
+            )
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var allVideoChart = echarts.init(document.getElementById('allVideo'));
+        var option = {
+            title: {
+                text: '小程序短视频总数 : null'
+            },
+            tooltip: {
+                trigger: 'axis',
+                showContent: true
+            },
+            grid: {bottom: '20%'},
+            dataset: {
+                source: []
+            },
+            xAxis: {type: 'category'},
+            yAxis: {gridIndex: 0},
+            series: [
+                {
+                    type: 'bar', seriesLayoutBy: 'row',
+                }]
+        };
+        allVideoChart.setOption(option);
+        allVideoChart.showLoading();
+        $.getJSON(/*[[@{/admin/stat/videos}]]*/"/admin/stat/videos", "", function (data) {
+            allVideoChart.hideLoading();
+            var array = data.data;
+            allVideoChart.setOption({
+                    title: {
+                        text: '小程序短视频总数 : ' + array[1][0]
+                    },
+                    dataset: {
+                        source: [
+                            [array[0][1], array[0][2], array[0][3], array[0][4], array[0][5], array[0][6], array[0][7]],
+                            [array[1][1], array[1][2], array[1][3], array[1][4], array[1][5], array[1][6], array[1][7]]
+                        ]
+                    }
+                }
+            )
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var allBgmChart = echarts.init(document.getElementById('allBgm'));
+        var option = {
+            title: {
+                text: '音乐库总数 : null'
+            },
+            tooltip: {},
+            dataset: {
+                source: []
+            },
+            series: [{
+                type: 'pie',
+                radius: 60,
+                center: ['50%', '60%']
+            }]
+        };
+        allBgmChart.setOption(option);
+        allBgmChart.showLoading();
+        $.getJSON(/*[[@{/admin/stat/music}]]*/"/admin/stat/music", "", function (data) {
+            allBgmChart.hideLoading();
+            var array = data.data;
+            allBgmChart.setOption({
+                    title: {
+                        text: '音乐库总数 : ' + array[1][0]
+                    },
+                    dataset: {
+                        source: [
+                            ['类型', '数量'],
+                            [array[0][1], array[1][1]],
+                            [array[0][2], array[1][2]]
+                        ]
+                    }
+                }
+            )
+        });
+    });
+</script>
+<script type="text/javascript">
+    var access = [];
+    var date = [];
+    var intervalMill = 5000;
+    var timeString;
+    var now = new Date();
+    now = new Date(now.getFullYear(), now.getMonth(), now.getDay(), now.getHours(), now.getMinutes(), now.getSeconds());
+
+    var allAccessChart = echarts.init(document.getElementById('allAccess'));
+
+    $(function () {
+        allAccessChart.showLoading();
+        for (var i = 0; i < 5; i++) {
+            setTimeout(function () {
+                $.getJSON(/*[[@{/admin/stat/accessNow}]]*/"/admin/stat/accessNow", "", function (data) {
+                    var hh = now.getHours();
+                    var mm = now.getMinutes();
+                    var ss = now.getSeconds();
+                    if (hh < 10) hh = ('0' + hh);
+                    if (mm < 10) mm = ('0' + mm);
+                    if (ss < 10) ss = ('0' + ss);
+                    timeString = [hh, mm, ss].join(':');
+                    date.push(timeString);
+                    access.push(data.data);
+
+                    now = new Date(+new Date(now) + intervalMill);
+                });
+            }, 1000);
+        }
+
+        var option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: date
+            },
+            yAxis: {
+                boundaryGap: [0, '50%'],
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '访问量',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'none',
+                    stack: 'a',
+                    areaStyle: {
+                        normal: {}
+                    },
+                    data: access
+                }
+            ]
+        };
+        allAccessChart.setOption(option);
+        $.getJSON(/*[[@{/admin/stat/accessTotal}]]*/"/admin/stat/accessTotal", "", function (data) {
+            allAccessChart.setOption({
+                    title: {
+                        text: '总访问量 : ' + data.data
+                    }
+                }
+            )
+        });
+
+        setTimeout(function () {
+            allAccessChart.hideLoading();
+        },5000);
+
+        // 定时获取
+        setInterval(function accessNow() {
+            $.getJSON(/*[[@{/admin/stat/accessNow}]]*/"/admin/stat/accessNow", "", function (data) {
+                var hh = now.getHours();
+                var mm = now.getMinutes();
+                var ss = now.getSeconds();
+                if (hh < 10) hh = ('0' + hh);
+                if (mm < 10) mm = ('0' + mm);
+                if (ss < 10) ss = ('0' + ss);
+                timeString = [hh, mm, ss].join(':');
+                date.push(timeString);
+                access.push(data.data);
+
+                now = new Date(+new Date(now) + intervalMill);
+                access.shift();
+                date.shift();
+                allAccessChart.setOption({
+                        xAxis: {
+                            data: date
+                        },
+                        series: [{
+                            name: '访问量',
+                            data: access
+                        }]
+                    }
+                )
+            });
+        }, 5000);
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

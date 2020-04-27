@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/me.css">
+    <title>Life Show后台</title>
+</head>
+<body>
+
+<div id="contentWrap">
+    <div th:replace="admin/_fragments::navbar(8)">
+        <!--sidebar-->
+        <div class="ui sidebar vertical left menu overlay borderless visible sidemunu inverted grey"
+             style="max-width: 250px !important;" tabindex="0">
+            <a href="#" class="item logo">
+                <img src="../../static/images/logo.png" alt="admin logo">
+            </a>
+            <div class="ui accordion inverted">
+                <a class="title item m-padded">
+                    <i class="compass outline icon titleIcon"></i>
+                    <p>首页</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="video icon titleIcon"></i>
+                    <p>短视频管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="user icon titleIcon"></i>
+                    <p>用户管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="music icon titleIcon"></i>
+                    <p>背景音乐管理</p>
+                </a>
+                <a class="title item m-padded">
+                    <i class="tags icon titleIcon"></i>
+                    <p>热门活动管理</p>
+                </a>
+                <div class="title item m-padded toggle">
+                    <i class="bell icon titleIcon"></i>
+                    举报模块
+                    <i class="dropdown icon" style="float: right !important;"></i>
+                    <div class="ui red horizontal label">99+</div>
+                </div>
+                <div class="ui menu inverted m-item m-display-hide" style="border-radius: 0 !important;" tabindex="0">
+                    <div class="ui fluid dropdown item" style="font-size: 14px !important;">
+                        <a class="item" href="#">
+                            <i class="lock open icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            举报列表
+                        </a>
+                        <a class="item" href="#">
+                            <i class="lock icon"
+                               style="font-size: 12px !important;float: left !important;margin-right: 5px !important;"></i>
+                            封禁列表
+                        </a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <a class="title item m-padded">
+                    <i class="users icon titleIcon"></i>
+                    <p>管理员管理</p>
+                </a>
+            </div>
+        </div>
+
+        <!--navbar-->
+        <div class="navslide ui menu">
+            <div class="right menu">
+                <div class="ui dropdown item">
+                    <i class="user circle icon"></i>
+                    <span>admin</span> <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <p class="item">超级管理员</p>
+                    </div>
+                </div>
+            </div>
+            <a class="item labeled">
+                <i class="power icon"></i>注销
+            </a>
+        </div>
+    </div>
+
+    <div class="m-padded-none m-container-content-sp">
+        <!--搜索-->
+        <div class="ui horizontal segments inline form">
+            <input type="hidden" name="page">
+            <div class="ui segment">
+                <div class="ui fields m-margin-tb-none">
+                    <div class="field">
+                        <div class="field">
+                            <input type="text" name="admin" placeholder="管理员">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="ui basic button" id="clear-btn">清空</button>
+                    </div>
+                    <div class="field">
+                        <button class="ui teal basic button" id="search-btn"><i class="search icon"></i>搜索</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui right aligned segment">
+                <button class="ui teal basic button update"><i class="upload icon"></i>添加新管理员</button>
+            </div>
+        </div>
+
+        <div class="ui teal message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header" th:text="${message}">
+                状态消息
+            </div>
+        </div>
+
+        <!--管理员列表-->
+        <div id="table-container">
+            <table th:fragment="adminList" class="ui celled fixed single line  teal table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th colspan="3">管理员帐户</th>
+                    <th colspan="2">最近登录时间</th>
+                    <th colspan="2">权限</th>
+                    <th colspan="4">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="admin: ${page.records}">
+                    <td th:text="${admin.adminId}">1</td>
+                    <td colspan="3" th:attr="data-content=${admin.account}" th:text="${admin.account}">admin</td>
+                    <td colspan="2" th:text="${#dates.format(admin.lastLoginDate,'yyyy-MM-dd HH:mm:ss')}">2020-02-11
+                        11:11:11
+                    </td>
+                    <td colspan="2" th:text="${admin.authName}">超级管理员</td>
+                    <td colspan="4">
+                        <a href="#" class="ui icon mini positive button update" th:attr="data-edit=${admin.adminId}"
+                           onclick="getAdminInfo(this)">修改</a>
+                        <a href="#" class="ui icon mini red button" th:unless="${admin.account}=='admin'"
+                           th:href="@{/admin/sys_admin/delete/{id}(id=${admin.adminId})}">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="12">
+                        <div class="ui mini pagination menu" th:if="${page.pages}>1">
+                            <a href="#" class="icon item" onclick="page(this)"
+                               th:attr="data-pages=${page.current}-1"
+                               th:unless="${page.current}==1"><i class="angle double left icon"></i>&nbsp;&nbsp;&nbsp;上一页
+                            </a>
+                            <a href="#" class="icon item" onclick="page(this)"
+                               th:attr="data-pages=${page.current}-1"
+                               th:unless="${page.current}==1">下一页&nbsp;&nbsp;&nbsp;<i
+                                    class="angle double right icon"></i>
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="ui inverted update-admin modal scrolling transition hidden" style="display: block !important;">
+    <div class="header">
+        管理员信息
+    </div>
+    <div class="image content">
+        <div class="ui medium image">
+            <img src="../../static/images/admin_avatar.png" alt="avatar" style="" th:src="@{/images/admin_avatar.png}">
+        </div>
+        <div class="description">
+            <form id="update-form" action="#" method="post" class="ui form" th:action="@{/admin/sys_admin}">
+                <div class="ui fields">
+                    <div class="field m-margin-bottom-small">
+                        <div class="ui labeled input m-margin-tb-small">
+                            <div class="ui label">
+                                ID
+                            </div>
+                            <input readonly type="text" name="adminId" style="max-width: 300px">
+                        </div>
+                        <div class="ui labeled input">
+                            <div class="ui label">
+                                帐号
+                            </div>
+                            <input type="text" name="account" placeholder="新帐号" style="max-width: 300px">
+                        </div>
+                    </div>
+                    <div class="field m-margin-bottom-small">
+                        <div class="ui labeled input m-margin-tb-small">
+                            <div class="ui label">
+                                密码
+                            </div>
+                            <input type="password" name="password" placeholder="新密码" style="max-width: 300px">
+                        </div>
+                        <div class="ui left action labeled input">
+                            <div class="ui label">
+                                系统权限
+                            </div>
+                            <div class="ui fluid selection dropdown">
+                                <input type="hidden" name="auth" th:value="*{auth}!=null?*{auth.id}:-1">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">未选择</div>
+                                <div class="menu">
+                                    <div th:each="auth:${auths}" class="item" data-value="1" th:data-value="${auth.id}"
+                                         th:text="${auth.name}" th:classappend="${auth.name=='超级管理员'}?'disabled'">超级管理员
+                                    </div>
+                                    <!--/*-->
+                                    <div class="item" data-value="2">系统管理员</div>
+                                    <!--*/-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="ui error message hidden">
+                <ul class="error list">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui deny button" id="deny-btn">
+            关闭
+        </div>
+        <div class="ui positive submit button" id="post-btn">
+            提交
+        </div>
+    </div>
+</div>
+
+<!--/*/<th:block th:replace="admin/_fragments::script">/*/-->
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="../../static/js/jquery-2.2.4.min.js"></script>
+<script src="../../static/js/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.menu .toggle').click(function () {
+        $('.m-item').toggleClass("m-display-hide");
+    });
+
+    $('.ui .dropdown').dropdown({
+        on: "hover"
+    });
+
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+
+    $('#search-btn').click(function () {
+        $("[name='page']").val(1);
+        loadData();
+    });
+
+    $('#clear-btn')
+        .on('click', function () {
+            $("[name='admin']").val('');
+        });
+
+    $('#post-btn').click(function () {
+        var account = $("[name='account']").val();
+        var pwd = $("[name='password']").val();
+        var auth = $("[name='auth']").val();
+        if (account=='' || pwd.length<6 || auth == (-1)){
+            $('.error.message').removeClass('hidden');
+            $('.error.list').empty();
+            if (account ==''){
+                $('.error.list').append("<li>请输入帐户名</li>")
+            }
+            if (pwd.length < 6){
+                $('.error.list').append("<li>请输入密码或密码长度小于6位</li>")
+            }
+            if (auth == (-1)){
+                $('.error.list').append("<li>请选择系统权限</li>")
+            }
+            return;
+        }
+        $("[name='password']").val(md5(pwd));
+        $('#update-form').submit();
+    });
+
+    $('td').popup();
+
+    $('.update-admin.modal')
+        .modal({
+            closable  : false,
+            onDeny    : function(){
+                return true;
+            },
+            onApprove : function() {
+                return false;
+            }
+        })
+        .modal('attach events', '.button.update', 'show');
+
+    function page(obj) {
+        $("[name='page']").val($(obj).data("pages"));
+        loadData();
+    }
+
+    function loadData() {
+        $("#table-container").load(/*[[@{/admin/sys_admin/search}]]*/"/admin/sys_admin/search", {
+            admin: $("[name='admin']").val(),
+            pages: $("[name='page']").val()
+        });
+    }
+
+    function getAdminInfo(obj) {
+        var id = $(obj).data("edit");
+        $.ajax({
+            type: 'GET',
+            url: /*[[@{/admin/sys_admin/edit}]]*/"/admin/sys_admin/edit",
+            data: {id: id},
+            dataType: 'json',
+            success: function (result) {
+                var data = result.data;
+                $("[name='adminId']").val(data.adminId);
+                $("[name='account']").val(data.account);
+                $("[name='password']").val();
+                $("[name='auth']").val(data.auth);
+                if (data.account == "admin"){
+                    $("[name='account']").attr('readonly',true);
+                    $('.selection.dropdown')
+                        .addClass('ui disabled')
+                        .dropdown('set selected',data.auth);
+                }else {
+                    $("[name='account']").attr('readonly',false);
+                    $('.selection.dropdown')
+                        .removeClass('disabled')
+                        .dropdown('set selected',data.auth);;
+                }
+            }
+        });
+    }
+
+    $('#deny-btn').click(function () {
+        $("[name='adminId']").val('');
+        $("[name='account']").val('');
+        $("[name='account']").attr('readonly',false);
+        $("[name='password']").val('');
+        $("[name='auth']").val(-1);
+        $('.selection.dropdown')
+            .removeClass('disabled')
+            .dropdown('restore defaults');
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

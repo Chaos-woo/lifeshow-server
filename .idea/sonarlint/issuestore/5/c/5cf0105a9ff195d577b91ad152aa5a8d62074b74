@@ -1,0 +1,6 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(õòı¯üÿÿÿÿ
+n	java:S116."YRename this field "ADMIN_AUTH_KEY" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹¾†Ş
+y	java:S1161"dRename this field "AUTO_LOGIN_SESSION_EXPIRE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê»é
+w
+java:S3457w"aNo need to call "toString()" method as formatting and string conversion is done by the Formatter.(íØ•Ü
