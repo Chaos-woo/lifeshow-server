@@ -128,7 +128,7 @@
 
 3. 启动linux系统，并将该系统的ip地址设置为一个固定值，[如何修改？](https://blog.csdn.net/wudinaniya/article/details/93342297?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2)
 
-   **注：**第 **3.** 步中的一些注意点：修改的配置名字不一定是【ifcfg-ens32】，我的是【ifcfg-ens33】，所以不用一定找到博客中的文件，只要里面的内容对就行，下面是我的配置截图
+   **注：** 第 **3.** 步中的一些注意点：修改的配置名字不一定是【ifcfg-ens32】，我的是【ifcfg-ens33】，所以不用一定找到博客中的文件，只要里面的内容对就行，下面是我的配置截图
 
    ![配置](https://raw.githubusercontent.com/chaooWoo/lifeshow-server/master/document/images/1.png)
 
@@ -176,7 +176,7 @@ ffprobe：https://pan.baidu.com/s/1llVK7QK3mn_AZXkNy0jzlw 提取码：g31a
 
 
 
-#**2002/04/27更新**
+#**2020/04/27更新**
 
 1. 删除原来的master分支
 2. 删除原有的两张表：tb_sys_stat和tb_stat_type
