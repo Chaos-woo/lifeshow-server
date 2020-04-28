@@ -105,7 +105,7 @@ public class AdminController {
 		}
 		// 页面跳转：重新登录
 		redirectAttributes.addFlashAttribute("message", "帐户名或密码错误");
-		return "redirect:/admin";
+		return "redirect:/";
 	}
 
 	/**
@@ -143,8 +143,8 @@ public class AdminController {
 	@GetMapping("admin/logout")
 	public String logout(HttpSession session, HttpServletResponse response) {
 		session.removeAttribute("admin");
-		CookieUtils.clearCookie(response, "auto", "/admin");
-		return "redirect:/admin";
+		CookieUtils.clearCookie(response, "auto", "/");
+		return "redirect:/";
 	}
 
 	/**

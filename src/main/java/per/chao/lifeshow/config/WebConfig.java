@@ -53,8 +53,9 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(adminLoginInterceptor())
-				.addPathPatterns("/admin")
-				.addPathPatterns("/admin/**");
+				.addPathPatterns("/")
+				.addPathPatterns("/admin/**")
+				.excludePathPatterns("/admin/login");;
 	}
 
 	// 添加跨域支持

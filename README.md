@@ -97,12 +97,13 @@
 
 #### 前端
 
-| 名称       | 描述           | 官网                                    |
-| ---------- | -------------- | --------------------------------------- |
-| Thymeleaf  | 模板引擎       | https://www.thymeleaf.org               |
-| echarts    | 图表           | https://www.echartsjs.com/zh/index.html |
-| jQuery     | 函数库         | http://jquery.com/                      |
-| wavesurfer | 音频可视化插件 | https://wavesurfer-js.org               |
+| 名称        | 描述                                 | 官网                                    |
+| ----------- | ------------------------------------ | --------------------------------------- |
+| Thymeleaf   | 模板引擎                             | https://www.thymeleaf.org               |
+| echarts     | 图表                                 | https://www.echartsjs.com/zh/index.html |
+| jQuery      | 函数库                               | http://jquery.com/                      |
+| wavesurfer  | 音频可视化插件                       | https://wavesurfer-js.org               |
+| Semantic UI | 快速创建好看、响应式、可读性好的HTML | https://semantic-ui.com/                |
 
 
 
