@@ -12,6 +12,7 @@ import lombok.Data;
 public class UserCommentVO {
 	private Integer videoId;
 	private String authorAvatar;
+	private Integer authorId;
 	private String author;
 	private String content;
 	private String videoCover;

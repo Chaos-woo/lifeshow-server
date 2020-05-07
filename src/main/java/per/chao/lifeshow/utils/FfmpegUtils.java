@@ -27,7 +27,7 @@ public class FfmpegUtils {
 	private static final boolean isLinux = System.getProperty("os.name").toLowerCase().contains("linux");
 
 	@Value("${ffmpeg.tool.path}")
-	public void setFfmpegToolPath(String ffmpegToolPath){
+	public void setFfmpegToolPath(String ffmpegToolPath) {
 		FFMPEG_TOOL_PATH = ffmpegToolPath;
 	}
 
@@ -96,9 +96,9 @@ public class FfmpegUtils {
 		File f = new File(path);
 		boolean canUseSuffix = f.getName().contains("-cutting");
 		String finalPath = f.getParentFile() + File.separator + id;
-		if (canUseSuffix){
+		if (canUseSuffix) {
 			finalPath += ".m4a";
-		}else {
+		} else {
 			finalPath += suffix;
 		}
 		List<String> command = new ArrayList<>();
@@ -130,16 +130,16 @@ public class FfmpegUtils {
 	}
 
 	public static String cutAndMerge(Videos videos, Bgms bgms) {
-		String videoTmpPath = cutVideoNoAudio(0,(int) (videos.getVideoSeconds() / 1000),videos.getVideoPath(),videos.getBgmId(),"-tmp.mp4");
+		String videoTmpPath = cutVideoNoAudio(0, (int) (videos.getVideoSeconds() / 1000), videos.getVideoPath(), videos.getBgmId(), "-tmp.mp4");
 		String audioTmpPath = cutAudio(0, (int) (videos.getVideoSeconds() / 1000), bgms.getBgmPath(), bgms.getId(), "-tmp.m4a");
 		File tmpVideo = new File(videoTmpPath);
 		File tmpAudio = new File(audioTmpPath);
-		String mergePath = mergeVideoAndAudio(videoTmpPath,audioTmpPath,tmpVideo.getParentFile()+File.separator+videos.getId()+".mp4");
-		if (tmpVideo.exists()){
-			tmpVideo.delete();
+		String mergePath = mergeVideoAndAudio(videoTmpPath, audioTmpPath, tmpVideo.getParentFile() + File.separator + videos.getId() + ".mp4");
+		if (tmpVideo.exists()) {
+			tmpVideo.delete(); // 删除短视频临时文件
 		}
-		if (tmpAudio.exists()){
-			tmpAudio.delete();
+		if (tmpAudio.exists()) {
+			tmpAudio.delete(); // 删除音频临时文件
 		}
 		return mergePath;
 	}

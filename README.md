@@ -1,5 +1,5 @@
 # lifeshow-server
-毕设代码备份。短视频小程序服务端，包含管理端和小程序后端（SpringBoot项目）
+毕设代码备份。短视频小程序服务端，包含管理端和小程序后端（Spring Boot项目）
 
 
 
@@ -83,7 +83,7 @@
 | 名称                   | 描述                     | 官网                                         |
 | ---------------------- | ------------------------ | -------------------------------------------- |
 | Spring Framework       | 容器                     | https://spring.io/projects/spring-framework  |
-| SpringBoot             | 微服务框架               | https://spring.io/projects/spring-boot       |
+| Spring Boot            | 微服务框架               | https://spring.io/projects/spring-boot       |
 | MyBatis Plus           | ORM框架，MyBatis增强版本 | https://mp.baomidou.com                      |
 | MyBatis Plus Generator | 代码生成                 | https://mp.baomidou.com/guide/generator.html |
 | PageHelper             | MyBatis Plus分页         | https://mp.baomidou.com/guide/page.html      |
@@ -182,9 +182,21 @@ ffprobe：https://pan.baidu.com/s/1llVK7QK3mn_AZXkNy0jzlw 提取码：g31a
 1. 删除原来的master分支
 2. 删除原有的两张表：tb_sys_stat和tb_stat_type
 3. 管理员dashboard面板数据：已增加相应代码，反应的数据为真实数据库数据，使用echarts完成数据可视化，可以前往中文官网进行学习
-4. **特别注意！！！！：** 如果需要在本地运行该项目时，需要去除SSL的Bean配置，否则本地访问都会将链接端口指向https的443端口，导致无法访问，（无需删除带有ssl配置的【application-pro.yml】），在该包下【package per.chao.lifeshow.config】，有以下两种选择可以操作：
+4. **特别注意！！！！：** 如果需要在本地运行该项目时，需要去除SSL的Bean配置，否则本地访问都会将链接端口指向https的443端口，导致无法访问，（无需删除带有ssl配置的【application-pro.yml】），**解决方法**：在该包下【package per.chao.lifeshow.config】，选择以下任一一种方法可以解决：
    * 将类【ConnectorConfig.java】直接删除
-   * 将注解【@Bean】去除，使Spring不能创建相应的Bean
+   * 将类【ConnectorConfig.java】的【servletWebServerFactory】方法上的注解【@Bean】去除，使Spring不能创建相应的Bean
+
+#**2020/05/07更新**
+
+1. 修复管理员自动登录Cookie的路径错误
+2. 完善在管理员封禁用户情况下，小程序端用户不可登录的功能
+3. 修改【UserCommentVO属性结构】和【CommentsMapper的SQL语句】，支持用户可以通过点击留言内用户头像进入用户信息页
+4. 修复dashboard面板显示：有关时间（7日内等）的统计图形显示不正确的问题
+5. 小程序访问量统计问题：
+   * 系统初始化时自动初始化Redis中总访问量和当日访问量
+   * Spring Boot设置定时任务，每天0点自动将当日访问量清零
+6. 补充说明（上次commit就改了但是没有说）：日志组件AOP【per.chao.lifeshow.aop.LogAspect.java】中，将原有的切入点表达式【@Pointcut("execution(* per.chao.lifeshow.controller.\*.\*(..))")】改为【@Pointcut("execution(* per.chao.lifeshow.controller..\*.\*.*(..))")】，使得controller包下的admin子包下的类也可以被扫描到
+7. 添加生日彩蛋
 
 
 

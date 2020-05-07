@@ -19,9 +19,9 @@ import java.util.List;
  */
 @Repository
 public interface CommentsMapper extends BaseMapper<Comments> {
-	@Select("select c.video_id as videoId,c.content as content,u.nickname as author,u.avatar as authorAvatar, v.cover_path as videoCover from tb_videos v,tb_user_info u,tb_comments c where c.video_id=#{id} and c.video_id=v.id and c.created_by=u.id order by c.created_at desc limit #{pages},#{limits}")
+	@Select("select c.video_id as videoId,c.content as content,u.id as authorId,u.nickname as author,u.avatar as authorAvatar, v.cover_path as videoCover from tb_videos v,tb_user_info u,tb_comments c where c.video_id=#{id} and c.video_id=v.id and c.created_by=u.id order by c.created_at desc limit #{pages},#{limits}")
 	List<UserCommentVO> selectCommentByVideoId(@Param("id") Integer id, @Param("pages") Integer pages, @Param("limits") Integer limits);
 
-	@Select("select c.video_id as videoId,c.content as content,u.nickname as author,u.avatar as authorAvatar, v.cover_path as videoCover from tb_videos v,tb_user_info u,tb_comments c where c.created_by=#{id} and c.created_by=u.id and c.video_id=v.id order by c.created_at desc limit #{pages},#{limits}")
+	@Select("select c.video_id as videoId,c.content as content,u.id as authorId,u.nickname as author,u.avatar as authorAvatar, v.cover_path as videoCover from tb_videos v,tb_user_info u,tb_comments c where c.created_by=#{id} and c.created_by=u.id and c.video_id=v.id order by c.created_at desc limit #{pages},#{limits}")
 	List<UserCommentVO> selectCommentByUserId(@Param("id") Integer id, @Param("pages") Integer pages, @Param("limits") Integer limits);
 }

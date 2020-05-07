@@ -104,12 +104,19 @@ public class UserServiceImpl implements IUserService {
 
 			return userId;
 		}
-		QueryWrapper<UserAuths> w = new QueryWrapper<>();
-		w.eq(FieldToUnderline.to(UserAuths.Fields.userId),id);
-		UserAuths updateAuths = userAuthsMapper.selectOne(w);
-		updateAuths.setCredential(password);
-		updateAuths.setLastLoginDate(System.currentTimeMillis());
-		userAuthsMapper.updateById(updateAuths);
+		QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+		wrapper.eq(FieldToUnderline.to(UserInfo.Fields.id), id);
+		UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+		if ("0".equals(userInfo.getStatus())) {
+			QueryWrapper<UserAuths> w = new QueryWrapper<>();
+			w.eq(FieldToUnderline.to(UserAuths.Fields.userId), id);
+			UserAuths updateAuths = userAuthsMapper.selectOne(w);
+			updateAuths.setCredential(password);
+			updateAuths.setLastLoginDate(System.currentTimeMillis());
+			userAuthsMapper.updateById(updateAuths);
+		} else {
+			return -1;
+		}
 		return id;
 	}
 
@@ -150,15 +157,22 @@ public class UserServiceImpl implements IUserService {
 	public Map<String, String> getUserId(String auth) {
 		Integer id = userAuthsMapper.selectUserIdByAuth(auth);
 		if (id != null) {
-			Map<String, String> data = new HashMap<>();
-			data.put("id", String.valueOf(id));
-			return data;
+			QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+			wrapper.eq(FieldToUnderline.to(UserInfo.Fields.id), id);
+			UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+			if ("0".equals(userInfo.getStatus())) {
+				Map<String, String> data = new HashMap<>();
+				data.put("id", String.valueOf(id));
+				return data;
+			} else {
+				return null;
+			}
 		}
 		return null;
 	}
 
 	@Override
-	public void decreaseWorks(Integer id,Integer count){
+	public void decreaseWorks(Integer id, Integer count) {
 		UserStat userStat = userStatMapper.selectByUserId(id);
 		userStat.setWorksCount(userStat.getWorksCount() - count);
 		userStatMapper.updateById(userStat);

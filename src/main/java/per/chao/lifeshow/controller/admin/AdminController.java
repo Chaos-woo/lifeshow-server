@@ -97,7 +97,7 @@ public class AdminController {
 		if (adminInfoVO != null) {
 			if (auto) {
 				Integer expire = 60 * 60 * 24 * 7;
-				CookieUtils.setCookie(response, "auto", adminInfoVO.getSessionKey(), expire, true, "/admin");
+				CookieUtils.setCookie(response, "auto", adminInfoVO.getSessionKey(), expire, true, "/");
 			}
 			session.setAttribute("admin", adminInfoVO);
 			// 页面跳转：首页
@@ -206,13 +206,15 @@ public class AdminController {
 	@ApiOperation("新增新系统管理员/更新管理员信息")
 	@ApiImplicitParam(name = "AdminInfoVO", value = "管理员信息VO")
 	@PostMapping("admin/sys_admin")
-	public String post(@Valid AdminInfoVO adminInfoVO, RedirectAttributes redirectAttributes) {
-		QueryWrapper<AdminInfo> wrapper = new QueryWrapper<>();
-		wrapper.eq(FieldToUnderline.to(AdminInfo.Fields.nickname), adminInfoVO.getAccount());
-		AdminInfo adminInfo1 = adminInfoService.getOne(wrapper);
-		if (adminInfo1 != null) {
-			redirectAttributes.addFlashAttribute("message", "系统管理员" + adminInfoVO.getAccount() + "已经存在");
-		} else {
+	public String post(@Valid AdminInfoVO adminInfoVO, RedirectAttributes redirectAttributes, Integer isUpdate) {
+		if (isUpdate == 0){
+			QueryWrapper<AdminInfo> wrapper = new QueryWrapper<>();
+			wrapper.eq(FieldToUnderline.to(AdminInfo.Fields.nickname), adminInfoVO.getAccount());
+			AdminInfo adminInfo1 = adminInfoService.getOne(wrapper);
+			if (adminInfo1 != null) {
+				redirectAttributes.addFlashAttribute("message", "系统管理员" + adminInfoVO.getAccount() + "已经存在！");
+			}
+		}else{
 			if (saveOrUpdate(adminService.VO2AdminInfo(adminInfoVO), adminService.VO2AdminAuths(adminInfoVO))) {
 				redirectAttributes.addFlashAttribute("message", "操作成功");
 			} else {

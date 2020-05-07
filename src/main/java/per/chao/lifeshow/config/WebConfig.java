@@ -55,7 +55,8 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addInterceptor(adminLoginInterceptor())
 				.addPathPatterns("/")
 				.addPathPatterns("/admin/**")
-				.excludePathPatterns("/admin/login");;
+				.excludePathPatterns("/admin/login")
+				.excludePathPatterns("/birth/**");
 	}
 
 	// 添加跨域支持

@@ -113,7 +113,7 @@ public class StatServiceImpl implements IStatService {
 			} else {
 				type.addLast(DateObtainUtils.obtainDateString(i));
 			}
-			data.addLast(statMapper.countVideosBetweenDate(DateObtainUtils.obtainMillWithZero(i - 1), DateObtainUtils.obtainMillWithZero(i)).toString());
+			data.addLast(statMapper.countVideosBetweenDate(DateObtainUtils.obtainMillWithZero(i), DateObtainUtils.obtainMillWithZero(i+1)).toString());
 		}
 	}
 
@@ -130,7 +130,7 @@ public class StatServiceImpl implements IStatService {
 			} else {
 				type.addLast(DateObtainUtils.obtainDateString(i));
 			}
-			data.addLast(statMapper.countUsersBetweenDate(DateObtainUtils.obtainMillWithZero(i - 1), DateObtainUtils.obtainMillWithZero(i)).toString());
+			data.addLast(statMapper.countUsersBetweenDate(DateObtainUtils.obtainMillWithZero(i), DateObtainUtils.obtainMillWithZero(i+1)).toString());
 		}
 		result.addLast(type);
 		result.addLast(data);
