@@ -238,7 +238,7 @@ public class UserController {
 	@GetMapping("/delete")
 	public void delete(Integer type, Integer id, Integer removedId) {
 		userService.delete(type, id, removedId);
-	} // todo ： 没有处理关注类型下，单方/互相关注的情况分开
+	}
 
 	/**
 	 * 处理用户的关注/取消关注操作
@@ -259,7 +259,7 @@ public class UserController {
 	}
 
 	/**
-	 * 处理用户的关注/取消关注操作
+	 * 处理用户的拉黑操作
 	 *
 	 * @param id
 	 * @param otherId

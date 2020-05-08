@@ -198,6 +198,11 @@ ffprobe：https://pan.baidu.com/s/1llVK7QK3mn_AZXkNy0jzlw 提取码：g31a
 6. 补充说明（上次commit就改了但是没有说）：日志组件AOP【per.chao.lifeshow.aop.LogAspect.java】中，将原有的切入点表达式【@Pointcut("execution(* per.chao.lifeshow.controller.\*.\*(..))")】改为【@Pointcut("execution(* per.chao.lifeshow.controller..\*.\*.*(..))")】，使得controller包下的admin子包下的类也可以被扫描到
 7. 添加生日彩蛋
 
+#**2020/05/08**
+
+1. 添加处理用户关注 / 取消关注操作中，用户统计数据（关注数、粉丝数等）的变更
+2. 将定时任务单独设置为一个定时任务类，新增一个每日统计用户总获赞数的定时任务
+
 
 
  --> readme后续将会逐步完善...

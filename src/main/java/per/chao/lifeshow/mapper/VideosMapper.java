@@ -46,4 +46,7 @@ public interface VideosMapper extends BaseMapper<Videos> {
 
 	@Select("select v.id,v.video_title as title,v.cover_path as cover,v.created_at as createdAt,u.nickname as createdBy,vs.liked_count as likedCount,vs.shared_count as sharedCount,vs.favored_count as favoredCount,vs.comment_count as commentCount from tb_videos v,tb_video_stat vs,tb_user_info u where u.id=#{id} and (v.status_id=1 or v.status_id=2) and v.id=vs.video_id and v.id in (select video_id from tb_user_collected_videos usv where usv.user_id=#{id}) order by v.created_at asc limit #{pages},#{limits}")
 	List<UserWorksVO> selectCollectedByUserId(@Param("id") Integer id, @Param("pages") Integer pages, @Param("limits") Integer limits);
+
+	@Select("select v.id from tb_videos v where v.created_by=#{id}")
+	List<Integer> selectIdsByUserId(@Param("id") Integer createdBy);
 }

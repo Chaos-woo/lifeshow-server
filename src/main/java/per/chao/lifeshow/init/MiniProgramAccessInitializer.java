@@ -2,7 +2,6 @@ package per.chao.lifeshow.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import per.chao.lifeshow.utils.RedisUtils;
 
@@ -33,10 +32,4 @@ public class MiniProgramAccessInitializer {
 			redisUtils.set(miniProgramAccessNow,0);
 		}
 	}
-
-	@Scheduled(cron = "0 0 0 * * ?")
-	public void everydayAccessScheduledTask(){
-		redisUtils.set(miniProgramAccessNow,0);
-	}
-
 }

@@ -44,7 +44,7 @@ public class UserStat implements Serializable {
     private Integer worksCount;
 
     @ApiModelProperty(value = "点赞数",example = "1")
-    private Integer receivedLikedCount;
+    private Long receivedLikedCount;
 
     @ApiModelProperty(value = "用户基本信息id",example = "1")
     private Integer userId;

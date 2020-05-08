@@ -21,4 +21,10 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
 	@Select("select * from tb_user_info where openid = #{openid}")
 	UserInfo selectByOpenid(@Param("openid") String openid);
+
+	@Select("select id from tb_user_info order by id asc limit 0,1")
+	Integer first();
+
+	@Select("select id from tb_user_info order by id desc limit 0,1")
+	Integer last();
 }

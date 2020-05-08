@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService {
 			UserStat us = new UserStat();
 			us.setFansCount(0);
 			us.setFollowersCount(0);
-			us.setReceivedLikedCount(0);
+			us.setReceivedLikedCount(0L);
 			us.setUserId(userId);
 			userStatMapper.insert(us);
 
@@ -250,10 +250,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void delete(Integer type, Integer id, Integer removedId) {
 		if (type == 0) {
-			LambdaQueryWrapper<UserFollowers> wrapper = Wrappers.lambdaQuery();
-			wrapper.eq(UserFollowers::getUserId, id)
-					.eq(UserFollowers::getFollowedUser, removedId);
-			userFollowersMapper.delete(wrapper);
+			handleFollowed(id,removedId,true);
 		} else {
 			LambdaQueryWrapper<UserBlacklist> wrapper = Wrappers.lambdaQuery();
 			wrapper.eq(UserBlacklist::getUserId, id)
@@ -303,6 +300,10 @@ public class UserServiceImpl implements IUserService {
 		UserFollowers followRelation = userFollowersMapper.selectOne(followerWrapper);
 		fansWrapper.eq(UserFans::getFansId, otherId).eq(UserFans::getUserId, id);
 		UserFans fansRelation = userFansMapper.selectOne(fansWrapper);
+
+		UserStat myStat = userStatMapper.selectByUserId(id);
+		UserStat otherStat = userStatMapper.selectByUserId(otherId);
+
 		if (isFollowed) {
 			LambdaQueryWrapper<UserFollowers> followerWrapperDelete = Wrappers.lambdaQuery();
 			LambdaQueryWrapper<UserFans> fansWrapperDelete = Wrappers.lambdaQuery();
@@ -320,6 +321,11 @@ public class UserServiceImpl implements IUserService {
 				fansRelation.setStatus("0");
 				userFansMapper.updateById(fansRelation);
 			}
+
+			myStat.setFollowersCount(myStat.getFollowersCount() - 1);
+			otherStat.setFansCount(otherStat.getFansCount() - 1);
+			userStatMapper.updateById(myStat);
+			userStatMapper.updateById(otherStat);
 		} else {
 			Long followedDate = System.currentTimeMillis();
 
@@ -348,6 +354,11 @@ public class UserServiceImpl implements IUserService {
 				fansRelation.setStatus("1");
 				userFansMapper.updateById(fansRelation);
 			}
+
+			myStat.setFollowersCount(myStat.getFollowersCount() + 1);
+			otherStat.setFansCount(otherStat.getFansCount() + 1);
+			userStatMapper.updateById(myStat);
+			userStatMapper.updateById(otherStat);
 		}
 		return true;
 	}
